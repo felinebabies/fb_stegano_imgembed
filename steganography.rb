@@ -131,6 +131,11 @@ class SteganoWeb < Sinatra::Base
       #データ埋め込み
       embedData(rmImage, embedbytes)
 
+      #フォーマットをPNGに変換する
+      if rmImage.format != "PNG" then
+        rmImage.format = "PNG"
+      end
+
       #成功したらファイルをダウンロードさせる
       attachment 'embedded.png'
       return rmImage.to_blob
