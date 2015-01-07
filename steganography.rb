@@ -37,7 +37,9 @@ def embedData(embedimage, embedBytes)
       pixel.green = pixel.green | dataGreen
       pixel.blue = pixel.blue | dataBlue
 
-      dr.fill("##{pixel.red.to_s(16).rjust(2, '0')}#{pixel.green.to_s(16).rjust(2, '0')}#{pixel.blue.to_s(16).rjust(2, '0')}")
+      colorCode = [pixel.red, pixel.green, pixel.blue].map { |color| color.to_s(16).rjust(2, '0') }.join
+
+      dr.fill("##{colorCode}")
       dr.point(x, y)
     end
   end
@@ -68,6 +70,7 @@ def readData(embedimage)
   return dataBytes
 end
 
+=begin
 #書き込み対象の画像
 inputimgname = 'Y373566001.png'
 embedimage = ImageList.new(inputimgname).first
@@ -89,3 +92,14 @@ pp embedimage
 readBytes = readData(embedimage)
 
 puts readBytes.pack('C*').force_encoding('utf-8')
+=end
+
+class SteganoWeb < Sinatra::Base
+  register Sinatra::Reloader
+
+  #ページ表示
+  get '/' do
+    "Hello world"
+  end
+
+end
