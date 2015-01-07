@@ -1,0 +1,35 @@
+%h1 ステガノグラフィ
+%p
+  画像に任意の文字列を埋め込むことができます。
+  %br
+  また、文字列を画像から取り出すこともできます。
+
+
+%h2 画像に文字列を埋め込む
+%p
+  画像の最大幅は
+  = @maxWidth
+  ピクセル
+  %br
+  画像の最大高さは
+  = @maxHeight
+  ピクセル
+  %br
+  24bit png画像のみに対応しています。
+%form{:action => "./embed", :method => "post", :enctype => "multipart/form-data"}
+  %p
+    埋め込み先のファイル
+    %input{:type => "file", :name => "file"}
+  %p
+    埋め込む文字列
+    %textarea{:name => "embedstr"}
+  %input{:type => "submit", :name => "submit"}
+
+%hr
+
+%h2 画像から文字列を取り出す
+%form{:action => "./read", :method => "post", :enctype => "multipart/form-data"}
+  %p
+    埋め込み先のファイル
+    %input{:type => "file", :name => "file"}
+  %input{:type => "submit", :name => "submit"}
