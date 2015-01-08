@@ -1,6 +1,6 @@
 require 'bundler'
 Bundler.require
 
-require_relative 'steganography'
+require_relative 'steganoweb'
 
 run SteganoWeb
