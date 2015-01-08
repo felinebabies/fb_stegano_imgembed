@@ -66,7 +66,7 @@ class SteganoWeb < Sinatra::Base
       end
 
       #データ埋め込み
-      embedData(rmImage, embedbytes)
+      Steganography.embedData(rmImage, embedbytes)
 
       #フォーマットをPNGに変換する
       if rmImage.format != "PNG" then
@@ -95,7 +95,7 @@ class SteganoWeb < Sinatra::Base
         return haml :error
       end
 
-      readBytes = readData(rmImage)
+      readBytes = Steganography.readData(rmImage)
 
       #識別文字列が一致しているかを確認
       headerBytes = HEADERSTR.unpack("C*")
