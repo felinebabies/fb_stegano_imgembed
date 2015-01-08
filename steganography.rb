@@ -102,6 +102,9 @@ class SteganoWeb < Sinatra::Base
         return haml :error
       end
 
+      #元のファイル名を取得
+      postedFileName = params[:file][:filename]
+
       #画像サイズを取得
       p rmImage.columns
       p rmImage.rows
@@ -137,7 +140,7 @@ class SteganoWeb < Sinatra::Base
       end
 
       #成功したらファイルをダウンロードさせる
-      attachment 'embedded.png'
+      attachment "#{File.basename(postedFileName, ".*")}_embedded.png"
       return rmImage.to_blob
     else
       @mes = "アップロード失敗"
