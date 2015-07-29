@@ -62,13 +62,56 @@ module Steganography
 
         dataByte = (dataRed << 5) | (dataGreen << 3) | dataBlue
 
-        dataBytes << dataByte unless dataByte == 0
+        dataBytes << dataByte
       end
     end
 
     return dataBytes
   end
 
+  #画像をRGB順のバイト配列にして返す
+  def imageToByteArray(embedImg)
+    dataBytes = []
+
+    (0...embedImg.rows).each do |y|
+      (0...embedImg.columns).each do |x|
+        pixel = embedImg.pixel_color(x, y)
+
+        dataBytes << pixel.red
+        dataBytes << pixel.green
+        dataBytes << pixel.blue
+      end
+    end
+
+    return dataBytes
+  end
+
+  def overWriteImage(baseimage, dataBytes, embWidth, embHeight, posx, posy)
+    pixelCount = 0
+    dr = Draw.new
+    (0...embHeight).each do |y|
+      (0...embWidth).each do |x|
+
+        (red, green, blue) = dataBytes[(pixelCount * 3), 3]
+        colorCode = [red, green, blue].map { |color| color.to_s(16).rjust(2, '0') }.join
+
+        dr.fill("##{colorCode}")
+        if ((x + posx) < baseimage.columns) && ((y + posy) < baseimage.rows) && ((x + posx) >= 0) && ((y + posy) >= 0) then
+          dr.point(x + posx, y + posy)
+        end
+
+        pixelCount += 1
+      end
+    end
+
+    #描画
+    dr.draw(baseimage)
+
+    return baseimage
+  end
+
   module_function :embedData
   module_function :readData
+  module_function :imageToByteArray
+  module_function :overWriteImage
 end

@@ -1,34 +1,40 @@
 %h1 ステガノグラフィ
 %p
-  画像に任意の文字列を埋め込むことができます。
+  画像に1/3の面積までの別の画像を埋め込むことができます。
   %br
-  また、文字列を画像から取り出すこともできます。
+  また、埋め込まれた画像を復元することもできます。
 
 
-%h2 画像に文字列を埋め込む
+%h2 画像に別の画像を埋め込む
 %p
-  画像の最大幅は
+  埋め込み先画像の最大幅は
   = @maxWidth
   ピクセル
   %br
-  画像の最大高さは
+  埋め込み先画像の最大高さは
   = @maxHeight
   ピクセル
   %br
-  24bit png画像のみに対応しています。
+  埋め込み先画像は24bit png画像のみに対応しています。
+  %br
 %form{:action => "./embed", :method => "post", :enctype => "multipart/form-data"}
   %p
-    埋め込み先のファイル
+    埋め込み先の画像ファイル
     %input{:type => "file", :name => "file"}
   %p
-    埋め込む文字列
-    %br
-    %textarea{:name => "embedstr", :rows => "5", :cols => "50"}
+    埋め込む画像ファイル（埋め込み先の1/3の面積まで）
+    %input{:type => "file", :name => "embfile"}
+  %p
+    埋め込み開始位置（x座標）
+    %input{:type => "text", :name => "xpos", :onKeyup => "this.value=this.value.replace(/[^0-9]+/,'')"}
+  %p
+    埋め込み開始位置（y座標）
+    %input{:type => "text", :name => "ypos", :onKeyup => "this.value=this.value.replace(/[^0-9]+/,'')"}
   %input{:type => "submit", :name => "submit"}
 
 %hr
 
-%h2 画像から文字列を取り出す
+%h2 画像から埋め込み画像を復元する
 %form{:action => "./read", :method => "post", :enctype => "multipart/form-data"}
   %p
     埋め込み先のファイル
